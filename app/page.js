@@ -203,19 +203,21 @@ export default function Home() {
               isExporting={isExporting}
             />
           ))}
-          <div className="flex justify-center my-8 no-print">
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
-              onClick={handleAddSection}
-            >
-              Add Section
-            </button>
-          </div>
+          {!isExporting && (
+            <div className="flex justify-center my-8 no-print">
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+                onClick={handleAddSection}
+              >
+                Add Section
+              </button>
+            </div>
+          )}
           {/* Footer fields */}
           <section className="mb-8">
             <div className="flex justify-between items-center mb-2 no-print">
               <span className="text-lg font-bold">Footer Section</span>
-              {footerEdit ? <SaveIcon onClick={() => setFooterEdit(false)} /> : <EditIcon onClick={() => setFooterEdit(true)} />}
+              {!isExporting && (footerEdit ? <SaveIcon onClick={() => setFooterEdit(false)} /> : <EditIcon onClick={() => setFooterEdit(true)} />)}
             </div>
             <div className="mb-6">
               <label className="font-bold block mb-1">Conduct:</label>
