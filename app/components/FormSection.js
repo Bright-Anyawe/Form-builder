@@ -46,38 +46,41 @@ export default function FormSection({ title, fields, onEditField, onDeleteField,
   };
 
   return (
-    <section className="mb-8 border rounded-lg p-2 bg-white shadow">
-      <div className="flex items-center justify-between mb-2">
-        {isCustom ? (
-          <input
-            type="text"
-            className="font-bold text-lg underline w-full border-b border-gray-400 focus:outline-none"
-            placeholder="Add your Title"
-            value={title}
-            onChange={e => onEditSectionTitle(e.target.value)}
-          />
-        ) : (
-          <h3 className="font-bold text-lg">{title}</h3>
-        )}
+    <section className="mb-8 border-2 border-black p-0 bg-white shadow">
+      {/* Header row: title centered, icons right */}
+      <div className="flex items-center justify-between border-b-2 border-black px-4 pt-2 pb-1">
+        <div className="flex-1 flex justify-center">
+          {isCustom ? (
+            <input
+              type="text"
+              className="font-bold text-lg underline text-center border-b border-gray-400 focus:outline-none w-full max-w-xl"
+              placeholder="Add your Title"
+              value={title}
+              onChange={e => onEditSectionTitle(e.target.value)}
+            />
+          ) : (
+            <h3 className="font-bold text-lg text-center w-full max-w-xl">{title}</h3>
+          )}
+        </div>
         <div className="flex items-center gap-2 ml-2">
           <button title="Add row" onClick={handleAddRow} className="text-blue-600 hover:bg-blue-100 rounded p-1"><PlusIcon /></button>
           <button title="Delete section" onClick={onDeleteSection} className="text-red-600 hover:bg-red-100 rounded p-1"><DeleteIcon /></button>
         </div>
       </div>
-      <table className="w-full border">
+      <table className="w-full border-2 border-black border-collapse">
         <thead>
           <tr>
-            <th className="border px-2 py-1 text-left">Item</th>
-            <th className="border px-2 py-1">A</th>
-            <th className="border px-2 py-1">S</th>
-            <th className="border px-2 py-1">N</th>
-            <th className="border px-2 py-1">Actions</th>
+            <th className="border-2 border-black px-2 py-1 text-left font-bold">Item</th>
+            <th className="border-2 border-black px-2 py-1 font-bold">A</th>
+            <th className="border-2 border-black px-2 py-1 font-bold">S</th>
+            <th className="border-2 border-black px-2 py-1 font-bold">N</th>
+            <th className="border-2 border-black px-2 py-1 font-bold">Actions</th>
           </tr>
         </thead>
         <tbody>
           {fields.map((field, idx) => (
             <tr key={idx}>
-              <td className="border px-2 py-1">
+              <td className="border-2 border-black px-2 py-1">
                 {editIdx === idx ? (
                   <div className="flex items-center gap-2">
                     <input
@@ -96,16 +99,16 @@ export default function FormSection({ title, fields, onEditField, onDeleteField,
                   </div>
                 )}
               </td>
-              <td className="border px-2 py-1 text-center">
+              <td className="border-2 border-black px-2 py-1 text-center align-middle">
                 <CheckboxGroup checked={field.checked === "A"} onChange={() => onCheckbox(idx, "A")} />
               </td>
-              <td className="border px-2 py-1 text-center">
+              <td className="border-2 border-black px-2 py-1 text-center align-middle">
                 <CheckboxGroup checked={field.checked === "S"} onChange={() => onCheckbox(idx, "S")} />
               </td>
-              <td className="border px-2 py-1 text-center">
+              <td className="border-2 border-black px-2 py-1 text-center align-middle">
                 <CheckboxGroup checked={field.checked === "N"} onChange={() => onCheckbox(idx, "N")} />
               </td>
-              <td className="border px-2 py-1 text-center">
+              <td className="border-2 border-black px-2 py-1 text-center align-middle">
                 {editIdx === idx ? null : (
                   <>
                     <button title="Edit" onClick={() => handleEdit(idx)} className="text-blue-600 mr-2"><PencilIcon /></button>
