@@ -15,7 +15,7 @@ const SaveIcon = () => (
   <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
 );
 
-export default function FormSection({ title, fields, onEditField, onDeleteField, onCheckbox, onAddField, isCustom, onEditSectionTitle, onDeleteSection }) {
+export default function FormSection({ title, fields, onEditField, onDeleteField, onCheckbox, onAddField, isCustom, onEditSectionTitle, onDeleteSection, isExporting }) {
   const [editIdx, setEditIdx] = useState(null);
   const [editValue, setEditValue] = useState("");
 
@@ -62,7 +62,7 @@ export default function FormSection({ title, fields, onEditField, onDeleteField,
             <h3 className="font-bold text-lg text-center w-full max-w-xl">{title}</h3>
           )}
         </div>
-        <div className="flex items-center gap-2 ml-2">
+        <div className="flex items-center gap-2 ml-2 no-print">
           <button title="Add row" onClick={handleAddRow} className="text-blue-600 hover:bg-blue-100 rounded p-1"><PlusIcon /></button>
           <button title="Delete section" onClick={onDeleteSection} className="text-red-600 hover:bg-red-100 rounded p-1"><DeleteIcon /></button>
         </div>
@@ -74,7 +74,7 @@ export default function FormSection({ title, fields, onEditField, onDeleteField,
             <th className="border-2 border-black px-2 py-1 font-bold">A</th>
             <th className="border-2 border-black px-2 py-1 font-bold">S</th>
             <th className="border-2 border-black px-2 py-1 font-bold">N</th>
-            <th className="border-2 border-black px-2 py-1 font-bold">Actions</th>
+            {!isExporting && <th className="border-2 border-black px-2 py-1 font-bold no-print">Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -90,8 +90,8 @@ export default function FormSection({ title, fields, onEditField, onDeleteField,
                       placeholder={isCustom && !field.label ? "Add your data" : undefined}
                       onChange={e => setEditValue(e.target.value)}
                     />
-                    <button title="Save" onClick={() => handleSave(idx)} className="text-green-600"><SaveIcon /></button>
-                    <button title="Cancel" onClick={handleCancel} className="text-red-600">✗</button>
+                    <button title="Save" onClick={() => handleSave(idx)} className="text-green-600 no-print"><SaveIcon /></button>
+                    <button title="Cancel" onClick={handleCancel} className="text-red-600 no-print">✗</button>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
@@ -108,14 +108,16 @@ export default function FormSection({ title, fields, onEditField, onDeleteField,
               <td className="border-2 border-black px-2 py-1 text-center align-middle">
                 <CheckboxGroup checked={field.checked === "N"} onChange={() => onCheckbox(idx, "N")} />
               </td>
-              <td className="border-2 border-black px-2 py-1 text-center align-middle">
-                {editIdx === idx ? null : (
-                  <>
-                    <button title="Edit" onClick={() => handleEdit(idx)} className="text-blue-600 mr-2"><PencilIcon /></button>
-                    <button title="Delete row" onClick={() => onDeleteField(idx)} className="text-red-600"><DeleteIcon /></button>
-                  </>
-                )}
-              </td>
+              {!isExporting && (
+                <td className="border-2 border-black px-2 py-1 text-center align-middle no-print">
+                  {editIdx === idx ? null : (
+                    <>
+                      <button title="Edit" onClick={() => handleEdit(idx)} className="text-blue-600 mr-2 no-print"><PencilIcon /></button>
+                      <button title="Delete row" onClick={() => onDeleteField(idx)} className="text-red-600 no-print"><DeleteIcon /></button>
+                    </>
+                  )}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
